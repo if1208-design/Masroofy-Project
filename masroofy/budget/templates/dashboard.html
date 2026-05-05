@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Budget Dashboard</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1); /* Shadow for depth */
+            width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            color: #000000;
+        }
+
+        .value {
+            font-size: 22px;
+            font-weight: bold;
+            color: #0c0c0c;
+            margin: 15px 0;
+        }
+
+        .highlight {
+            color: #27ae60;
+            font-size: 26px;
+        }
+        h3 {
+            color: #07099a;
+            margin-top: 20px;
+        }
+        hr {
+            margin: 20px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card">
+        <h1>Budget Dashboard</h1>
+
+        <h3> _US3 - Basic Budget_ </h3>
+
+        <div class="value">
+            Remaining Budget:
+            <span class="highlight">{{ remaining_budget|floatformat:2 }}</span>
+        </div>
+
+        <div class="value">
+            Remaining Days:
+            <span class="highlight">{{ remaining_days|floatformat:2 }}</span>
+        </div>
+
+        <div class="value">
+            Safe Daily Limit:
+            <span class="highlight">{{ safe_daily_limit|floatformat:2 }}</span>
+        </div>
+
+        <hr>
+
+        <h3> _US5 - Dynamic Rollover_ </h3>
+
+        <div class="value">
+            Adjusted Daily Limit:
+            <span class="highlight">{{ adjusted_daily_limit|floatformat:2 }}</span>
+        </div>
+
+        <hr>
+
+        <div class="value">
+            Today's Spending:
+            <span class="highlight">{{ today_spending|floatformat:2 }}</span>
+        </div>
+        {% if warning %}
+            <div style="margin-top:15px; padding:10px; background:#ffe6e6; color:#b30000; border-radius:8px;">
+                <b>{{ warning }}</b>
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>
