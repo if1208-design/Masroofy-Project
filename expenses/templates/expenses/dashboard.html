@@ -1,0 +1,67 @@
+{% extends 'expenses/base.html' %}
+{% load static %}
+
+{% block content %}
+
+<h2>Dashboard</h2>
+
+{% if message %}
+    <p>{{ message }}</p>
+{% else %}
+
+<h3>Totals</h3>
+<ul>
+    {% for key, value in totals.items %}
+        <li>{{ key }} : {{ value }}</li>
+    {% endfor %}
+</ul>
+
+<h3>Percentages</h3>
+<ul>
+    {% for key, value in percentages.items %}
+        <li>{{ key }} : {{ value|floatformat:1 }}%</li>
+    {% endfor %}
+</ul>
+
+<!-- convert data to Json-->
+{{ percentages|json_script:"percentages-data" }}
+
+
+<div style="width: 300px; height: 300px; margin: auto;">
+    <canvas id="expenseChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+const rawData = JSON.parse(document.getElementById('percentages-data').textContent);
+
+const labels = Object.keys(rawData);
+const values = Object.values(rawData).map(v => Number(v.toFixed(1)));
+
+const ctx = document.getElementById('expenseChart');
+
+new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: values,
+            backgroundColor: [
+                'red','blue','green','orange','purple','pink'
+            ]
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+</script>
+
+{% endif %}
+
+<br>
+<a href="/expenses/">Back</a>
+
+{% endblock %}
