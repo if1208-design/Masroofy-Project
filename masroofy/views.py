@@ -1,6 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Budget
+from .models import Login ,Sign
+from .models import Budget 
 from .services import BudgetManager
+
+
 def init_budget(request):
     if request.method == "POST":
         allowance = float(request.POST.get("allowance"))
@@ -49,3 +52,29 @@ def dashboard(request):
 def reset_budget(request):
     Budget.objects.all().delete()
     return redirect('/')
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        data = Login( username=username, password=password)
+        data.save()
+
+
+    return render(request, 'login.html')
+
+def signup(request):
+    if request.method == "POST":
+        username = request.POST.get("username")
+        email = request.POST.get("email")
+        password = request.POST.get("password")
+
+        user = Sign(
+            username=username,
+            email=email,
+            password=password
+        )
+        user.save()
+ 
+    return render(request, "signup.html")

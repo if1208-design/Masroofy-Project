@@ -7,5 +7,13 @@ class Budget(models.Model):
     daily_limit = models.FloatField()
     spent = models.FloatField(default=0)
 
+class Login(models.Model):
+    username = models.CharField(max_length=20)
+    password = models.CharField(max_length=30)
+
+class Sign(models.Model):
+    username = models.CharField(max_length=50)
+    email = models.EmailField()
+    password = models.CharField(max_length=50)
 
 # Create your models here.
