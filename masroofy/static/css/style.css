@@ -94,3 +94,70 @@ button:hover {
     gap: 20px;
     flex-wrap: wrap;
 }
+
+body.dark-mode {
+    background: #121212;
+    color: white;
+}
+
+body.dark-mode .card {
+    background: #1e1e1e;
+    color: white;
+}
+
+body.dark-mode a {
+    background: #333;
+    color: white;
+}
+
+body.dark-mode input {
+    background: #222;
+    color: white;
+}
+
+.toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 8px;
+    background: #ff006e;
+    color: white;
+    cursor: pointer;
+    z-index: 999;
+}
+
+.toggle-btn:hover {
+    transform: scale(1.1);
+}
+
+
+
+
+
+
+
+
+.progress-container {
+    width: 80%;
+    height: 35px;
+    background: #ddd;
+    margin: 20px auto;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background: #ff006e;
+    text-align: center;
+    line-height: 35px;
+    color: white;
+    font-weight: bold;
+    transition: 0.5s;
+}
+
+
+
+

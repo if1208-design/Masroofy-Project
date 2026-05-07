@@ -7,6 +7,11 @@ class Budget(models.Model):
     daily_limit = models.FloatField()
     spent = models.FloatField(default=0)
 
+
+class SavingGoal(models.Model):
+    target_amount = models.FloatField()
+    current_amount = models.FloatField(default=0)
+
 class Login(models.Model):
     username = models.CharField(max_length=20)
     password = models.CharField(max_length=30)

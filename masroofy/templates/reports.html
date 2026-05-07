@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Financial Reports</h2>
+
+<div class="container">
+
+    <div class="card">
+        <h3>Total Budget</h3>
+        <p>{{ allowance }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Total Spent</h3>
+        <p>{{ spent }}</p>
+    </div>
+
+    <div class="card">
+        <h3>Remaining</h3>
+        <p>{{ remaining }}</p>
+    </div>
+
+</div>
+
+<h3>Spending Progress</h3>
+
+<div class="progress-container">
+    <div class="progress-bar" style="width: {{ percentage }}%;">
+        {{ percentage|floatformat:0 }}%
+    </div>
+</div>
+
+<a href="/">Back Dashboard</a>
+
+{% endblock %}

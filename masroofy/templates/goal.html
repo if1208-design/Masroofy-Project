@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Saving Goal</h2>
+
+<form method="POST">
+    {% csrf_token %}
+
+    <input type="number" name="target" placeholder="Enter Saving Goal">
+
+    <button type="submit">
+        Save Goal
+    </button>
+</form>
+
+{% if goal %}
+
+<div class="card">
+    <h3>Goal Target</h3>
+    <p>{{ goal.target_amount }}</p>
+</div>
+
+<div class="card">
+    <h3>Current Savings</h3>
+    <p>{{ goal.current_amount }}</p>
+</div>
+
+<div class="progress-container">
+    <div class="progress-bar" style="width: {{ percentage }}%;">
+        {{ percentage|floatformat:0 }}%
+    </div>
+</div>
+
+<a href="/">Back To Dashboard</a>
+{% endif %}
+
+{% endblock %}

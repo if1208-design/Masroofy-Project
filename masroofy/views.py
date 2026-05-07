@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Login ,Sign
 from .models import Budget 
 from .services import BudgetManager
-
+from .models import SavingGoal
 
 def init_budget(request):
     if request.method == "POST":
@@ -63,6 +63,26 @@ def dashboard(request):
         "warning": warning
     })
 
+
+
+def reports(request):
+    budget = Budget.objects.last()
+
+    if not budget:
+        return redirect('/')
+
+    spent_percentage = (budget.spent / budget.allowance) * 100
+
+    return render(request, "reports.html", {
+        "allowance": budget.allowance,
+        "spent": budget.spent,
+        "remaining": budget.allowance - budget.spent,
+        "percentage": spent_percentage
+    })
+
+
+
+
 def reset_budget(request):
     Budget.objects.all().delete()
     return redirect('/')
@@ -92,3 +112,45 @@ def signup(request):
         user.save()
  
     return render(request, "signup.html")
+
+
+
+
+
+def saving_goal(request):
+
+    goal = SavingGoal.objects.last()
+
+    if request.method == "POST":
+
+        target = float(request.POST.get("target"))
+
+        if goal:
+            goal.target_amount = target
+            goal.save()
+        else:
+            SavingGoal.objects.create(
+                target_amount=target
+            )
+
+        return redirect('/goal')
+
+    if goal:
+        budget = Budget.objects.last()
+
+        current_saving = budget.allowance - budget.spent
+
+        goal.current_amount = current_saving
+        goal.save()
+
+        percentage = (
+            goal.current_amount / goal.target_amount
+        ) * 100
+
+    else:
+        percentage = 0
+
+    return render(request, "goal.html", {
+        "goal": goal,
+        "percentage": percentage
+    })
