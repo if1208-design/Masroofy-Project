@@ -20,6 +20,9 @@ def init_budget(request):
 
 from .services import ExpenseManager
 
+
+        
+
 def add_expense(request):
     if request.method == "POST":
         amount = float(request.POST.get("amount"))
@@ -27,15 +30,22 @@ def add_expense(request):
 
         try:
             manager = ExpenseManager()
-            manager.add_expense(amount, category)
+
+            result = manager.add_expense(amount, category)
+
+            warning = result["warning"]
+
+            if warning:
+                request.session["warning"] = warning
+
             return redirect('/')
+
         except:
             return render(request, "add_expense.html", {
                 "error": "Invalid input"
             })
 
     return render(request, "add_expense.html")
-
 def dashboard(request):
     budget = Budget.objects.last()
 
@@ -44,11 +54,15 @@ def dashboard(request):
 
     remaining = budget.allowance - budget.spent
 
+    warning = request.session.pop("warning", None)
+
     return render(request, "dashboard.html", {
         "daily": budget.daily_limit,
         "spent": budget.spent,
-        "remaining": remaining
+        "remaining": remaining,
+        "warning": warning
     })
+
 def reset_budget(request):
     Budget.objects.all().delete()
     return redirect('/')

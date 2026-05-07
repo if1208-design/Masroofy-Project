@@ -2,6 +2,12 @@
 
 {% block content %}
 
+{% if warning %}
+<div class="alert alert-warning">
+    {{ warning }}
+</div>
+{% endif %}
+
 <div class="container">
 
     <div class="card">
@@ -22,6 +28,7 @@
 </div>
 
 <a href="/add-expense">Add Expense</a>
+
 <a href="/reset" onclick="return confirm('Are you sure?')">
     Reset Budget
 </a>

@@ -1,12 +1,10 @@
+
 from .models import Budget
 
 
 class LimitCalculator:
     def calculate_daily_limit(self, allowance, days):
         return allowance / days
-
-
-from .models import Budget
 
 
 class BudgetManager:
@@ -23,6 +21,7 @@ class BudgetManager:
         return budget
     
 
+
 class ExpenseManager:
     def add_expense(self, amount, category):
         if amount <= 0 or not category:
@@ -33,4 +32,15 @@ class ExpenseManager:
         budget.spent += amount
         budget.save()
 
-        return budget
+        threshold = budget.allowance * 0.8
+
+        if budget.spent >= threshold:
+            return {
+                "warning": "Warning: You have used 80% of your allowance.",
+                "budget": budget
+            }
+
+        return {
+            "warning": None,
+            "budget": budget
+        }
