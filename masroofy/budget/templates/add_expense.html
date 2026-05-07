@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Add Expense</title>
+
+        <style>
+            body {
+                font-family: Arial;
+                background-color: #f7f7f7;
+                padding: 20px;
+            }
+
+            .container {
+                background: white;
+                padding: 20px;
+                max-width: 400px;
+                margin: auto;
+                border-radius: 10px;
+            }
+
+            input, select {
+                width: 100%;
+                padding: 8px;
+                margin-top: 5px;
+                margin-bottom: 15px;
+            }
+            
+            button {
+                padding: 10px;
+                width: 100%;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 5px;
+            }
+
+            button:hover {
+                background-color: #45a049;
+            }
+
+            a {
+                display: block;
+                margin-top: 10px;
+                text-align: center;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+            
+            h2 {
+                color: #07099a;
+            }
+/* 
+            form {
+                background: white;
+                padding: 30px;
+                border-radius: 12px;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            } */
+        </style>
+    </head>
+
+    <body>
+        <div class="container">
+
+            <h2>Add Expense</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Add Expense</button>
+            </form>
+
+            <a href="{% url 'dashboard' %}">Back to Dashboard</a>
+        </div>
+    </body>
+</html>
