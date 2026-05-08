@@ -1,8 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import Login ,Sign
-from .models import Budget 
+from .models import Budget ,Expense
+from .services import ExpenseManager
 from .services import BudgetManager
 from .models import SavingGoal
+from django.db.models import Sum
+from django.shortcuts import get_object_or_404
 
 def init_budget(request):
     if request.method == "POST":
@@ -17,13 +20,6 @@ def init_budget(request):
         return redirect('/')
 
     return render(request, "init_budget.html")
-
-from .services import ExpenseManager
-
-
-        
-
-from .models import Expense
 
 def add_expense(request):
 
@@ -167,8 +163,6 @@ def saving_goal(request):
         "percentage": percentage
     })
 
-from django.shortcuts import get_object_or_404
-
 
 def history(request):
 
@@ -210,20 +204,6 @@ def edit_expense(request, id):
 
     return render(request, "edit_expense.html", {
         "expense": expense
-    })
-
-
-
-from .models import Expense
-from django.shortcuts import get_object_or_404
-
-
-def history(request):
-
-    expenses = Expense.objects.all()
-
-    return render(request, "history.html", {
-        "expenses": expenses
     })
 
 
@@ -275,11 +255,6 @@ def delete_expense(request, id):
         "expense": expense
     })
 
-from .models import Expense
-from .services import get_category_breakdown
-
-from django.db.models import Sum
-from .models import Expense
 
 def pie(request):
     data = Expense.objects.values('category').annotate(total=Sum('amount'))
