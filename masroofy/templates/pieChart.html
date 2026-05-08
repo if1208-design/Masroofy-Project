@@ -1,4 +1,4 @@
-{% extends 'expenses/base.html' %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
@@ -23,7 +23,6 @@
     {% endfor %}
 </ul>
 
-<!-- convert data to Json-->
 {{ percentages|json_script:"percentages-data" }}
 
 
@@ -66,4 +65,3 @@ new Chart(ctx, {
 
 {% endblock %}
 
-/*Try*/

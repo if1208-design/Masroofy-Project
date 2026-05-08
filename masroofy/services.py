@@ -89,7 +89,7 @@ from collections import defaultdict
 
 def get_category_breakdown(expenses):
     if not expenses:
-        return None
+        return {}
 
     totals = defaultdict(float)
     total_spent = 0
@@ -99,7 +99,7 @@ def get_category_breakdown(expenses):
         total_spent += e.amount
 
     if total_spent == 0:
-        return None
+        return {}
 
     result = {}
 

@@ -278,11 +278,27 @@ def delete_expense(request, id):
 from .models import Expense
 from .services import get_category_breakdown
 
+from django.db.models import Sum
+from .models import Expense
+
 def pie(request):
-    expenses = Expense.objects.all()
+    data = Expense.objects.values('category').annotate(total=Sum('amount'))
 
-    breakdown = get_category_breakdown(expenses)
+    totals = {}
+    percentages = {}
 
-    return render(request, "dashboard.html", {
-        "breakdown": breakdown
+    total_sum = sum(item['total'] for item in data)
+
+    for item in data:
+        category = item['category']
+        amount = item['total']
+
+        totals[category] = amount
+
+        if total_sum != 0:
+            percentages[category] = (amount / total_sum) * 100
+
+    return render(request, "pieChart.html", {
+        "totals": totals,
+        "percentages": percentages
     })
