@@ -1,4 +1,6 @@
+
 {% extends 'base.html' %}
+{% include "navbar.html" %}
 
 {% block content %}
 
@@ -27,13 +29,4 @@
 
 </div>
 
-<a href="/add-expense">Add Expense</a>
-
-<a href="/reset" onclick="return confirm('Are you sure?')">
-    Reset Budget
-</a>
-
-<a href="/reports">View Reports</a>
-<a href="/goal">Saving Goal</a>
-<a href="/history">History</a>
 {% endblock %}

@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from .models import Login ,Sign
 from .models import Budget ,Expense
 from .services import ExpenseManager
 from .services import BudgetManager
 from .models import SavingGoal
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
+from django.contrib.auth import logout
 
 def init_budget(request):
     if request.method == "POST":
@@ -55,20 +55,20 @@ def add_expense(request):
     return render(request, "add_expense.html")
 
 def dashboard(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     budget = Budget.objects.last()
 
     if not budget:
-        return render(request, "init_budget.html")
+        return redirect('init_budget')
 
     remaining = budget.allowance - budget.spent
-
-    warning = request.session.pop("warning", None)
 
     return render(request, "dashboard.html", {
         "daily": budget.daily_limit,
         "spent": budget.spent,
-        "remaining": remaining,
-        "warning": warning
+        "remaining": remaining
     })
 
 
@@ -93,18 +93,29 @@ def reports(request):
 
 def reset_budget(request):
     Budget.objects.all().delete()
-    return redirect('/')
+    return redirect('dashboard')
+
+from django.contrib.auth import authenticate, login
 
 def login_view(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
+    if request.method == "POST":
+        username = request.POST.get("username")
+        password = request.POST.get("password")
 
-        data = Login( username=username, password=password)
-        data.save()
+        user = authenticate(request, username=username, password=password)
 
+        if user:
+            login(request, user)
+            return redirect('dashboard')
+        else:
+            return render(request, "login.html", {
+                "error": "Invalid credentials"
+            })
 
-    return render(request, 'login.html')
+    return render(request, "login.html")
+
+from django.contrib.auth.models import User
+from django.contrib.auth import login
 
 def signup(request):
     if request.method == "POST":
@@ -112,18 +123,22 @@ def signup(request):
         email = request.POST.get("email")
         password = request.POST.get("password")
 
-        user = Sign(
+        if User.objects.filter(username=username).exists():
+            return render(request, "signup.html", {
+                "error": "Username already exists"
+            })
+
+        user = User.objects.create_user(
             username=username,
             email=email,
             password=password
         )
-        user.save()
- 
+
+        login(request, user)
+        return redirect('dashboard')
+
     return render(request, "signup.html")
-
-
-
-
+  
 
 def saving_goal(request):
 
@@ -165,96 +180,25 @@ def saving_goal(request):
 
 
 def history(request):
-
     expenses = Expense.objects.all()
-
     return render(request, "history.html", {
         "expenses": expenses
     })
 
 
-def edit_expense(request, id):
-
-    expense = get_object_or_404(Expense, id=id)
-
-    if request.method == "POST":
-
-        new_amount = float(request.POST.get("amount"))
-        new_category = request.POST.get("category")
-
-        budget = Budget.objects.last()
-
-        old_amount = expense.amount
-
-        difference = new_amount - old_amount
-
-        budget.spent += difference
-
-        budget.daily_limit = (
-            budget.allowance - budget.spent
-        ) / budget.days
-
-        budget.save()
-
-        expense.amount = new_amount
-        expense.category = new_category
-        expense.save()
-
-        return redirect('/history')
-
-    return render(request, "edit_expense.html", {
-        "expense": expense
-    })
-
-
-def edit_expense(request, id):
-
-    expense = get_object_or_404(Expense, id=id)
-
-    if request.method == "POST":
-
-        new_amount = float(request.POST.get("amount"))
-        new_category = request.POST.get("category")
-
-        manager = ExpenseManager()
-
-        manager.edit_expense(
-            expense.amount,
-            new_amount
-        )
-
-        expense.amount = new_amount
-        expense.category = new_category
-
-        expense.save()
-
-        return redirect('/history')
-
-    return render(request, "edit_expense.html", {
-        "expense": expense
-    })
-
 
 def delete_expense(request, id):
-
     expense = get_object_or_404(Expense, id=id)
 
     if request.method == "POST":
+        budget = Budget.objects.last()
 
-        manager = ExpenseManager()
-
-        manager.delete_expense(
-            expense.amount
-        )
+        budget.spent -= expense.amount
+        budget.save()
 
         expense.delete()
 
-        return redirect('/history')
-
-    return render(request, "delete_expense.html", {
-        "expense": expense
-    })
-
+    return redirect('history')
 
 def pie(request):
     data = Expense.objects.values('category').annotate(total=Sum('amount'))
@@ -277,3 +221,19 @@ def pie(request):
         "totals": totals,
         "percentages": percentages
     })
+
+def home(request):
+    if request.user.is_authenticated:
+        return redirect('dashboard')
+    return render(request, "home.html")
+
+def logout_view(request):
+    if request.method == "POST":
+        logout(request)
+        return redirect('home')
+
+    return render(request, "logout.html")
+
+def logout_view(request):
+    logout(request)
+    return redirect('home')

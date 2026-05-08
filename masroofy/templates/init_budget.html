@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form method="POST" action="/init">
+<form method="POST" action="{% url 'init_budget' %}">
     {% csrf_token %}
     
     <input type="number" name="allowance" placeholder="Allowance" required><br>

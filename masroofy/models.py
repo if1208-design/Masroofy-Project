@@ -27,6 +27,6 @@ class Expense(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.category
+        return f"{self.category} - {self.amount}"
 
 # Create your models here.

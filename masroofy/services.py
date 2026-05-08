@@ -1,5 +1,6 @@
 
 from .models import Budget
+from collections import defaultdict
 
 
 class LimitCalculator:
@@ -85,7 +86,7 @@ class ExpenseManager:
 
         return budget
     
-from collections import defaultdict
+
 
 def get_category_breakdown(expenses):
     if not expenses:
