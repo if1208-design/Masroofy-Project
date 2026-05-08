@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Expenses History</h2>
+
+<ul>
+{% for e in expenses %}
+    <li>
+        {{ e.amount }} - {{ e.category }}
+        <a href="/delete/{{ e.id }}/">Delete</a>
+    </li>
+{% empty %}
+    <li>No expenses yet</li>
+{% endfor %}
+<a href="/pieChart">Dashboard</a>
+
+<a href="/add-expense">Add Expense</a>
+
+{% endblock %}

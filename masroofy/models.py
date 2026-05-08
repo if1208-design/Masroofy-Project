@@ -21,4 +21,12 @@ class Sign(models.Model):
     email = models.EmailField()
     password = models.CharField(max_length=50)
 
+class Expense(models.Model):
+    amount = models.FloatField()
+    category = models.CharField(max_length=50)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.category
+
 # Create your models here.
