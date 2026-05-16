@@ -3,64 +3,186 @@
 
 {% block content %}
 
-
 {% if message %}
+
     <p>{{ message }}</p>
+
 {% else %}
 
-<h3>Totals</h3>
-<ul>
-    {% for key, value in totals.items %}
-        <li>{{ key }} : {{ value }}</li>
-    {% endfor %}
-</ul>
+<h1 class="dashboard-title">
+    Expense Analytics
+</h1>
 
-<h3>Percentages</h3>
-<ul>
-    {% for key, value in percentages.items %}
-        <li>{{ key }} : {{ value|floatformat:1 }}%</li>
-    {% endfor %}
-</ul>
+<div class="chart-card">
+
+    <!-- ================= LEFT SIDE ================= -->
+
+    <div class="stats-container">
+
+        <!-- ================= TOTALS ================= -->
+
+        <div class="stats-box">
+
+            <h2>Totals</h2>
+
+            <ul>
+
+                {% for key, value in totals.items %}
+
+                <li>
+
+                    <span>{{ key }}</span>
+
+                    <div class="value-box">
+                        {{ value }}
+                    </div>
+
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+        <!-- ================= PERCENTAGES ================= -->
+
+        <div class="stats-box">
+
+            <h2>Percentages</h2>
+
+            <ul>
+
+                {% for key, value in percentages.items %}
+
+                <li>
+
+                    <span>{{ key }}</span>
+
+                    <div class="value-box">
+                        {{ value|floatformat:1 }}%
+                    </div>
+
+                </li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!-- ================= RIGHT SIDE ================= -->
+
+    <div class="chart-wrapper">
+
+        <canvas id="expenseChart"></canvas>
+
+    </div>
+
+</div>
+
+<!-- ================= JSON DATA ================= -->
 
 {{ percentages|json_script:"percentages-data" }}
 
-
-<div style="width: 300px; height: 300px; margin: auto;">
-    <canvas id="expenseChart"></canvas>
-</div>
+<!-- ================= CHART JS ================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-const rawData = JSON.parse(document.getElementById('percentages-data').textContent);
+
+const rawData = JSON.parse(
+    document.getElementById('percentages-data').textContent
+);
 
 const labels = Object.keys(rawData);
-const values = Object.values(rawData).map(v => Number(v.toFixed(1)));
+
+const values = Object.values(rawData);
 
 const ctx = document.getElementById('expenseChart');
 
 new Chart(ctx, {
-    type: 'pie',
+
+    type: 'doughnut',
+
     data: {
+
         labels: labels,
+
         datasets: [{
+
             data: values,
+
             backgroundColor: [
-                'red','blue','green','orange','purple','pink'
-            ]
+
+                '#ff006e',
+                '#8338ec',
+                '#3a86ff',
+                '#06d6a0',
+                '#ffbe0b',
+                '#fb5607',
+                '#90e0ef',
+                '#c77dff'
+
+            ],
+
+            borderColor: '#ffffff',
+
+            borderWidth: 4,
+
+            hoverOffset: 30,
+
+            hoverBorderWidth: 5
+
         }]
     },
+
     options: {
+
         responsive: true,
-        maintainAspectRatio: false
+
+        maintainAspectRatio: false,
+
+        cutout: '65%',
+
+        plugins: {
+
+            legend: {
+
+                position: 'bottom',
+
+                labels: {
+
+                    color: 'white',
+
+                    font: {
+
+                        size: 14
+                    }
+                }
+            },
+
+            title: {
+
+                display: true,
+
+                text: 'Expense Distribution',
+
+                color: 'white',
+
+                font: {
+
+                    size: 24
+                }
+            }
+        }
     }
 });
+
 </script>
 
 {% endif %}
 
-<br>
-
-
 {% endblock %}
-

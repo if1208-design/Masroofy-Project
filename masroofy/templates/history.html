@@ -1,31 +1,53 @@
-
-
 {% extends 'base1.html' %}
+{% load static %}
 
 {% block content %}
 
-<h2>Expenses History</h2>
+<h1 class="dashboard-title">
+    Expense History
+</h1>
 
-{% if expenses %}
+<div class="history-container">
 
-    <ul>
-        {% for e in expenses %}
-        <li style="display:flex; justify-content:center; align-items:center; gap:10px; margin-bottom:10px;">
-    <span>{{ e.category }} - {{ e.amount }}</span>
+    {% for expense in expenses %}
 
-    <form action="/delete/{{ e.id }}/" method="post" style="margin:0;">
-        {% csrf_token %}
-        <button type="submit">Delete</button>
-    </form>
-</li>
-        {% endfor %}
-    </ul>
+    <div class="history-card">
 
-{% else %}
-    <p>No expenses yet</p>
-{% endif %}
+        <div class="history-info">
 
-<br>
+            <h2>
+                {{ expense.category }}
+            </h2>
 
+            <p class="amount">
+                {{ expense.amount }} EGP
+            </p>
+
+        </div>
+
+        <!-- <a href="/delete/{{ expense.id }}"
+           class="delete-btn"
+           onclick="return confirm('Delete this expense?')">
+
+            Delete
+
+        </a> -->
+   <form action="{% url 'delete_expense' expense.id %}" method="POST">
+    {% csrf_token %}
+
+    <button type="submit"
+            class="delete-btn"
+            onclick="return confirm('Delete this expense?')">
+
+        Delete
+
+    </button>
+</form>
+
+    </div>
+
+    {% endfor %}
+
+</div>
 
 {% endblock %}

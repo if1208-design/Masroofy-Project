@@ -3,9 +3,21 @@
 <html>
 <head>
     <title>Masroofy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+    <script>
+
+const toggleBtn = document.querySelector('.toggle-btn');
+
+toggleBtn.addEventListener('click', () => {
+
+    document.body.classList.toggle('dark-mode');
+
+});
+
+</script>
     <nav class="navbar">
         <a href="/dashboard">Dashboard</a>
         <a href="/add-expense">Add Expense</a>

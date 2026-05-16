@@ -1,23 +1,66 @@
-{% extends 'base1.html' %}
+{% load static %}
 
-{% block content %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
 
+    <meta charset="UTF-8">
 
-<h1>Add Expense</h1>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<form method="POST">
-    {% csrf_token %}
-    
-    <input type="number" name="amount" placeholder="Amount" required><br>
-    <input type="text" name="category" placeholder="Category" required><br>
+    <title>Add Expense</title>
 
-    <button type="submit">Add Expense</button>
-</form>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-{% if error %}
-<p style="color: red;">{{ error }}</p>
-{% endif %}
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
-<a href="/add-expense">Back</a>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-{% endblock %}
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+    <div class="expense-form-container">
+
+        <h1>
+            Add Expense
+        </h1>
+
+        <form class="expense-form" method="POST">
+
+            {% csrf_token %}
+
+            <input
+                type="number"
+                name="amount"
+                placeholder="Enter Amount"
+                required
+            >
+
+            <input
+                type="text"
+                name="category"
+                placeholder="Enter Category"
+                required
+            >
+
+            <button type="submit" class="expense-btn">
+
+                Add Expense
+
+            </button>
+
+        </form>
+
+        <a href="/" class="back-btn">
+
+            Back
+
+        </a>
+
+    </div>
+
+</body>
+</html>

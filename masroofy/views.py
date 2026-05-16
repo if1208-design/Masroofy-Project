@@ -6,6 +6,7 @@ from .models import SavingGoal
 from django.db.models import Sum
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import logout
+from .models import Budget, SavingGoal
 
 def init_budget(request):
     if request.method == "POST":
@@ -91,8 +92,13 @@ def reports(request):
 
 
 
+# def reset_budget(request):
+#     Budget.objects.all().delete()
+#     return redirect('dashboard')
 def reset_budget(request):
     Budget.objects.all().delete()
+    SavingGoal.objects.all().delete()
+
     return redirect('dashboard')
 
 from django.contrib.auth import authenticate, login

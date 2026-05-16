@@ -1,31 +1,76 @@
-
 {% extends 'base1.html' %}
 
 {% block content %}
 
 {% if warning %}
-<div class="alert alert-warning">
-    {{ warning }}
+
+<div class="warning-box">
+     {{ warning }}
 </div>
+
 {% endif %}
+
+<h1 class="dashboard-title">
+    Masroofy Dashboard
+</h1>
+
+<p class="dashboard-subtitle">
+    Smart Budget Tracking & Expense Analytics
+</p>
 
 <div class="container">
 
+    <!-- Daily Limit -->
+
     <div class="card">
+
+        <div class="icon">
+           
+        </div>
+
         <h3>Daily Limit</h3>
-        <p>{{ daily }}</p>
+
+        <p>
+            ${{ daily }}
+        </p>
+
     </div>
 
+    <!-- Spent -->
+     
     <div class="card">
+
+        <div class="icon">
+           
+        </div>
+
         <h3>Spent</h3>
-        <p>{{ spent }}</p>
+
+        <p>
+            ${{ spent }}
+        </p>
+
     </div>
 
+    <!-- Remaining -->
+
     <div class="card">
+
+        <div class="icon">
+         
+        
+        </div>
+
         <h3>Remaining</h3>
-        <p>{{ remaining }}</p>
+
+        <p>
+            ${{ remaining }}
+        </p>
+
     </div>
 
 </div>
 
 {% endblock %}
+
+
