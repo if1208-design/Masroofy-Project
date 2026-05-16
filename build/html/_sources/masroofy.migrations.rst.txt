@@ -1,0 +1,37 @@
+masroofy.migrations package
+===========================
+
+Submodules
+----------
+
+masroofy.migrations.0001\_initial module
+----------------------------------------
+
+.. automodule:: masroofy.migrations.0001_initial
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+masroofy.migrations.0002\_savinggoal module
+-------------------------------------------
+
+.. automodule:: masroofy.migrations.0002_savinggoal
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+masroofy.migrations.0003\_expense module
+----------------------------------------
+
+.. automodule:: masroofy.migrations.0003_expense
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: masroofy.migrations
+   :members:
+   :show-inheritance:
+   :undoc-members:

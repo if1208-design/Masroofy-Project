@@ -1,0 +1,85 @@
+masroofy package
+================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   masroofy.migrations
+
+Submodules
+----------
+
+masroofy.admin module
+---------------------
+
+.. automodule:: masroofy.admin
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+masroofy.apps module
+--------------------
+
+.. automodule:: masroofy.apps
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+masroofy.manage module
+----------------------
+
+.. automodule:: masroofy.manage
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+masroofy.models module
+----------------------
+
+.. automodule:: masroofy.models
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+masroofy.services module
+------------------------
+
+.. automodule:: masroofy.services
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+masroofy.tests module
+---------------------
+
+.. automodule:: masroofy.tests
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+masroofy.urls module
+--------------------
+
+.. automodule:: masroofy.urls
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+masroofy.views module
+---------------------
+
+.. automodule:: masroofy.views
+   :members:
+   :show-inheritance:
+   :undoc-members:
+
+Module contents
+---------------
+
+.. automodule:: masroofy
+   :members:
+   :show-inheritance:
+   :undoc-members:
